@@ -1,0 +1,489 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Galana Fekadu Asafa - Computer Science Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Arial&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Galana Fekadu Asafa</h1>
+            <p class="hero-subtitle">Computer Science Engineer</p>
+            <a href="#about" class="hero-btn">Learn More</a>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="#education" class="nav-link">Education</a></li>
+                <li class="nav-item"><a href="#experience" class="nav-link">Experience</a></li>
+                <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
+                <li class="nav-item"><a href="#projects" class="nav-link">Projects</a></li>
+                <li class="nav-item"><a href="#awards" class="nav-link">Awards</a></li>
+                <li class="nav-item"><a href="#publications" class="nav-link">Publications</a></li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <div class="dark-mode-toggle">
+                <button id="dark-mode-btn">Toggle Dark Mode</button>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="section home fade-in">
+        <div class="container">
+             <h1 class="home-title"><span id="typed-text"></span><span id="cursor">|</span></h1>
+            <h2 class="home-subtitle">Computer Science Engineer</h2>
+            <p class="home-description">As a Computer Science Engineer, I specialize in leveraging cutting-edge technology to solve complex problems and innovate solutions. With expertise in software development, Artificial Intelligence, Machine Learning, and Data Science, I'm dedicated to advancing the field and making a meaningful impact through continuous learning and innovation.</p>
+            <div class="home-social">
+                <a href="mailto:nafsiif911@gmail.com" class="social-link" target="_blank">📧</a>
+                <a href="tel:+251991186669" class="social-link" target="_blank">📱</a>
+                <a href="https://www.linkedin.com/in/galana-fekadu-16a3b5212/" class="social-link" target="_blank">💼</a>
+                <a href="https://x.com/galana_fekadu" class="social-link" target="_blank">Ⓧ</a>
+                <a href="https://github.com/GalanaFekadu" class="social-link" target="_blank">👨‍💻</a>
+                <a href="https://orcid.org/0009-0000-5295-4146" class="social-link" target="_blank">🆔</a>
+                <a href="https://www.facebook.com/AukooG911" class="social-link" target="_blank">👍</a>
+            </div>
+            <img src="profile-placeholder.jpg" alt="Profile Photo" class="home-profile-img">
+        </div>
+        <div class="interests">
+            <h3>My Interests</h3>
+            <div class="interest-cards">
+                <div class="interest-card">
+                    <div class="icon">🤖</div>
+                    <h4>AI</h4>
+                </div>
+                <div class="interest-card">
+                    <div class="icon">👁️</div>
+                    <h4>Computer Vision</h4>
+                </div>
+                <div class="interest-card">
+                    <div class="icon">📈</div>
+                    <h4>Machine Learning</h4>
+                </div>
+                <div class="interest-card">
+                    <div class="icon">🌐</div>
+                    <h4>3D Reconstruction</h4>
+                </div>
+                <div class="interest-card">
+                    <div class="icon">🔍</div>
+                    <h4>Image Detection</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section fade-in">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <img src="profile-placeholder.jpg" alt="Profile" class="about-img">
+                <div class="about-text">
+                    <p>I am Galana Fekadu Asafa, a passionate computer scientist with a strong foundation in Artificial Intelligence, Machine Learning, and Computer Vision. I earned my Bachelor of Engineering in Computer Science and Technology from the University of Electronic Science and Technology of China (Chengdu, China), and continued to deepen my expertise with a Master of Engineering in Computer Science and Technology from Central South University (Changsha, China).
+With experience in designing innovative algorithms, developing deep learning models, and solving complex real-world problems, I am committed to leveraging technology to create impactful solutions. My work blends rigorous research with practical applications, driven by curiosity, creativity, and a dedication to continuous learning.
+
+I enjoy exploring the frontiers of AI, experimenting with new technologies, and contributing to projects that bridge research and industry.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <h3>2+</h3>
+                            <a href="#experience" class="nav-link">Years Experience</a>
+                        </div>
+                        <div class="stat">
+                            <h3>2+</h3>
+                            <a href="#publications" class="nav-link">Research Publications</a>
+                        </div>
+                        <div class="stat">
+                            <h3>40+</h3>
+                            <a href="#awards" class="nav-link">Awards Won</a>
+                        </div
+                    </div>
+
+
+
+
+                    <div class="language-proficiency">
+                        <h4>Language Proficiency</h4>
+                        <div class="languages">
+			    <div class="lang">🇪🇹 Afaan Oromoo ★★★★★</div>
+                            <div class="lang">🇪🇹 Amharic ★★★★★</div>
+                            <div class="lang">🇺🇸 English ★★★★★</div>
+                            <div class="lang">🇨🇳 Chinese ★★★☆☆</div>
+                        </div>
+                    </div>
+                    <div class="downloads">
+                        <a href="AWARD AND CERTIFICATE.pdf" class="download-btn">🏆 Certificates</a>
+                        <a href="cv.pdf" class="download-btn">📄 Resume</a>
+                        <a href="#" class="download-btn">📋 Transcript</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="section fade-in">
+        <div class="container">
+            <h2>Education</h2>
+            <h3>My Academic Journey</h3>
+            <div class="education-grid">
+                <div class="edu-card">
+                    <img src="CSU.png" alt="CSU">
+                    <div class="edu-details">
+                        <h4>Central South Univerity(CSU)</h4>
+                        <p>Master's of Engineering, Computer Science</p>
+                        <p>2022 - 2025</p>
+                    </div>
+                </div>
+                <div class="edu-card">
+                    <img src="UESTC.png" alt="UESTC">
+                    <div class="edu-details">
+                        <h4>University of Electronic Science and Technology of China (UESTC)</h4>
+                        <p>Bachelor of Engineering, Computer Science</p>
+                        <p>2018 - 2022</p>
+                    </div>
+                </div>
+                <div class="edu-card">
+                    <img src="WU.jpg" alt="WU">
+                    <div class="edu-details">
+                        <h4>Wallagga University</h4>
+                        <p>Pre-Engineering</p>
+                        <p>2017 - 2018</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section">
+        <div class="container">
+            <h2>Experience</h2>
+            <h3>My Journey (Sorted by Reputation)</h3>
+	    <div class="timeline">
+		<div class="timeline-item">
+		    <div class="timeline-date">Aug 2025 - Present</div>
+		    <div class="timeline-content">
+                        <h4>Data Encoder at Sinoma International Engineering Co.Ltd, Ethiopia</h4>
+                        <p>Accurately input and manage large volumes of data into company databases and systems with a focus on speed and precision.</p>
+                        <div class="company-logo"><img src="Sinoma.png" alt="Sinoma Logo"></div>
+                    </div>
+                </div>			
+           
+                <div class="timeline-item">
+                    <div class="timeline-date"> Febr 2024 - April 2025 </div>
+                    <div class="timeline-content">
+                        <h4>Dormitory Assistant in SCSE</h4>
+                        <p>I have worked as a dormitory assistant for 1 year in the Central South University to help the counselor of our School.</p>
+                        <div class="company-logo"><img src="CSU.png" alt="Central South University Logo"></div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Sept 2020 - oct 2020</div>
+                    <div class="timeline-content">
+                        <h4>Android Application Development Workshop by SCSE</h4>
+                        <p>I was a committee member for this workshop hosted by the School of Computer Science and Engineering at UESTC. Our school awarded me a certificate of appreciation.</p>
+                        <div class="company-logo"><img src="UESTC.png" alt="UESTC Logo"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section fade-in">
+        <div class="container">
+            <h2>Skills</h2>
+            <div class="skills-toggle">
+                <button class="toggle-btn active">All</button>
+                <button class="toggle-btn">Categorized</button>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-badge">
+                    <img src="python-icon.png" alt="Python" class="skill-icon">
+                    <span class="caption">Python</span>
+                </div>
+                <div class="skill-badge">
+                    <img src="pytorch-icon.png" alt="PyTorch" class="skill-icon">
+                    <span class="caption">PyTorch</span>
+                </div>
+                <div class="skill-badge">
+                    <img src="tensorflow-icon.png" alt="TensorFlow" class="skill-icon">
+                    <span class="caption">TensorFlow</span>
+                </div>
+                <div class="skill-badge">
+                    <img src="opencv-icon.png" alt="OpenCV" class="skill-icon">
+                    <span class="caption">OpenCV</span>
+                </div>
+                <div class="skill-badge">
+                    <img src="blender-icon.png" alt="Blender" class="skill-icon">
+                    <span class="caption">Blender</span>
+                </div>
+                <div class="skill-badge">
+                    <img src="html-icon.png" alt="HTML" class="skill-icon">
+                    <span class="caption">HTML</span>
+                </div>
+                <div class="skill-badge">
+                    <img src="css-icon.png" alt="CSS" class="skill-icon">
+                    <span class="caption">CSS</span>
+                </div>
+                <div class="skill-badge">
+                    <img src="javascript-icon.png" alt="JavaScript" class="skill-icon">
+                    <span class="caption">JavaScript</span>
+                </div>
+            </div>
+            <div class="skill-categories">
+                <h3>Machine Learning & AI</h3>
+                <div class="category-grid">
+                    <div class="skill-badge">
+                        <img src="python-icon.png" alt="Python" class="skill-icon">
+                        <span class="caption">Python</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="pytorch-icon.png" alt="PyTorch" class="skill-icon">
+                        <span class="caption">PyTorch</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="tensorflow-icon.png" alt="TensorFlow" class="skill-icon">
+                        <span class="caption">TensorFlow</span>
+                    </div>
+                </div>
+                <h3>Computer Vision</h3>
+                <div class="category-grid">
+                    <div class="skill-badge">
+                        <img src="opencv-icon.png" alt="OpenCV" class="skill-icon">
+                        <span class="caption">OpenCV</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="python-icon.png" alt="Python" class="skill-icon">
+                        <span class="caption">Python</span>
+                    </div>
+                </div>
+                <h3>3D Reconstruction</h3>
+                <div class="category-grid">
+                    <div class="skill-badge">
+                        <img src="blender-icon.png" alt="Blender" class="skill-icon">
+                        <span class="caption">Blender</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="python-icon.png" alt="Python" class="skill-icon">
+                        <span class="caption">Python</span>
+                    </div>
+                </div>
+                <h3>Software Development</h3>
+                <div class="category-grid">
+                    <div class="skill-badge">
+                        <img src="html-icon.png" alt="HTML" class="skill-icon">
+                        <span class="caption">HTML</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="css-icon.png" alt="CSS" class="skill-icon">
+                        <span class="caption">CSS</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="javascript-icon.png" alt="JavaScript" class="skill-icon">
+                        <span class="caption">JavaScript</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section fade-in">
+        <div class="container">
+            <h2>Projects</h2>
+            <p>Smart English-Chinese Dictionary - 2019</p>
+	    <p>Design and Simulation of Local Area Network Using Cisco Packet Tracer - 2020</p>
+	    <p>Hotel Management System - 2021</p>
+	    <p>Cartpole Control with Reinforcement learning(undergraduate thesis) - 2022</p>
+	    <p>Dual-Process CNN with Cross-Attention Mechanism for Single-View 3D Reconstruction(postgraduate thesis) - 2025</p>
+        </div>
+    </section>
+
+    <section id="awards" class="section fade-in">
+        <div class="container">
+            <h2>Awards and Achievements</h2>
+            <p>I have won many honorary awards and certificates</p>
+            <div class="awards-intro">
+                <img src="trophy-placeholder.jpg" alt="Trophy">
+                <p>Since 2018, I have been honored with so many prestigious awards.</p>
+            </div>
+            <div class="awards-grid">
+                <div class="award-card">
+                    <h4>Academic Achievement and Scholarship Awards</h4>
+                    <p>4+</p>
+                    <a href="#" class="view-more" data-target="academic-list">View more</a>
+                    <div class="award-list" id="academic-list" style="display: none;">
+                        <ul>
+                            <li>Dean's List Award - Wallagga University, 2018</li>
+                            <li>Academic Excellence Award - UESTC, 2020</li>
+                            <li>Betre-Science Scholarship (Ethiopian Government Scholarship) - 2018</li>
+                            <li>Chinese Government Scholarship - 2022 </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="award-card">
+                    <h4>Excellent Performance Awards</h4>
+                    <p>4+</p>
+                    <a href="#" class="view-more" data-target="performance-list">View more</a>
+                    <div class="award-list" id="performance-list" style="display: none;">
+                        <ul>
+			    <li>UESTC Excellent Performance Award second prize - 2018</li>
+                            <li>UESTC Excellent Performance Award second prize - 2019</li>
+                            <li>UESTC Excellent Performance Award second prize - 2020</li>
+                            <li>UESTC Excellent Performance Award second prize - 2021</li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="award-card">
+                    <h4>Extra-Curricular Certifications</h4>
+                    <p>8+</p>
+                    <a href="#" class="view-more" data-target="certification-list">View more</a>
+                    <div class="award-list" id="certification-list" style="display: none;">
+                        <ul>
+                            <li>Android App Development Workshop</li>
+                            <li>Python for Web Automation</li>
+                            <li>PHP programming Language</li>
+                            <li>C# programming language</li>
+                            <li>Dart and Flutter Training</li>
+			    <li>Image Recognition basics</li>
+                            <li>Eyes on the world of UESTC reading Month</li>
+                            <li>The 53rd UESTC Sports Meeting</li>
+                            <li>International Visitiong mision by UESTC-2019</li>
+			    <li>UESTC Graduation Sports Football Winner- 2019 </li>
+			    <li>UESTC Graduation Sports Volleyball Winner- 2019 </li>
+			    <li>UESTC Clean up exercise 2019 </li>
+			    <li>Learning in UESTC exchange forum - 2019 </li>
+			    <li>UESTC Winter Sports Volleyball Winner-2021 </li>
+			    <li>Chengdu Community activities - 2020 </li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+    </section>
+  
+
+
+    <section id="publications" class="section fade-in">
+        <div class="container">
+            <h2>Publications</h2>
+            <a href="#" class="scholar-btn" target ="_blank">Google Scholar Profile</a>
+            <p> Selected publications showcasing my research contributions.</p>
+            <div class="pub-grid">
+                <div class="pub-card">
+		    <div class="pub-image">
+                        <img src="pub1-placeholder.jpg" alt="DepthCloud2Point: Depth Maps and Initial Point for 3D Point Cloud Reconstruction from a Single Image" class="pub-img>
+                    </div>
+		    <div class="pub-details">
+			<h4 class="pub-title">DepthCloud2Point: Depth Maps and Initial Point for 3D Point Cloud Reconstruction from a Single Image</h4>
+			<p class="pub-meta">Journl: <em>Electronics</em> 2025,14(6), 1119</p>
+			<p class="pub-meta">DOI:<a href="https://doi.org/10.3390/electronics14061119" target="_blank">10.3390/electronics14061119</a></p>
+			<p class="pub-meta">1st Author: Galana Fekadu Asafa</p>
+			<div class="pub-links">
+			    <a href="paper1.pdf" class="pub-link" target="_blank">Full Paper</a>
+			    <a href="#" class="pub-link" data-toggle="abtsract">Read abstract</a>
+			</div>
+			<div class="pub-abstract" style="display: none;">
+			    <p>[Abstract placeholder: This paper.........]</p>
+			    <button class="close-abstract">Close</button>
+			</div>
+		    </div>
+		    <div class="pub-image">
+			<img src="Archi2.png" alt="WGA-SWIN: Efficient Multi-View 3D Object Reconstruction Using Window Grouping Attention in Swin Transformer" class="pub-img>
+                    </div>
+		    <div class="pub-details">
+			<h4 class="pub-title">WGA-SWIN: Efficient Multi-View 3D Object Reconstruction Using Window Grouping Attention in Swin Transformer</h4>
+			<p class="pub-meta">Journl: <em>Electronics</em> 2025,14(8), 1619</p>
+			<p class="pub-meta">DOI:<a href="https://doi.org/10.3390/electronics14081619" target="_blank">10.3390/electronics14081619</a></p>
+			<p class="pub-meta">Co-Author: Galana Fekadu Asafa</p>
+			<div class="pub-links">
+			    <a href="paper2.pdf" class="pub-link" target="_blank">Full Paper</a>
+			    <a href="#" class="pub-link" data-toggle="abtsract">Read abstract</a>
+			</div>
+			<div class="pub-abstract" style="display: none;">
+			    <p>[Abstract placeholder: This paper.........]</p>
+			    <button class="close-abstract">Close</button>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Galana Fekadu. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.view-more').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    const list = document.getElementById(targetId);
+                    if (!list) {
+                        console.error('List not found: ' + targetId);
+                        return;
+                    }
+                    if (list.style.display === 'none' || list.style.display === '') {
+                        list.style.display = 'block';
+                        this.textContent = 'View less';
+                    } else {
+                        list.style.display = 'none';
+                        this.textContent = 'View more';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
